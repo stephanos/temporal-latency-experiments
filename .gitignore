@@ -1,0 +1,3 @@
+run/**/*.json
+viz/**/*.html
+viz/**/*.svg
