@@ -52,6 +52,8 @@ func main() {
 	r := run(c, l, iterations)
 
 	fmt.Fprintf(os.Stderr, "p90: %.1f\n", float64(tle.Quantile(r.LatenciesNs, 0.9))/1e6)
+	fmt.Fprintf(os.Stderr, "p95: %.1f\n", float64(tle.Quantile(r.LatenciesNs, 0.95))/1e6)
+	fmt.Fprintf(os.Stderr, "p99: %.1f\n", float64(tle.Quantile(r.LatenciesNs, 0.99))/1e6)
 
 	fmt.Println(string(Must(json.MarshalIndent(r, "", "  "))))
 }
