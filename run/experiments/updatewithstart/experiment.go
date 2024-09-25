@@ -43,12 +43,12 @@ func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
 			WaitForStage: client.WorkflowUpdateStageCompleted,
 		})
 
-		c.ExecuteWorkflow(ctx, client.StartWorkflowOptions{
+		Must(c.ExecuteWorkflow(ctx, client.StartWorkflowOptions{
 			ID:                       workflowID,
 			TaskQueue:                tle.TaskQueue,
 			WorkflowIDConflictPolicy: policy,
 			WithStartOperation:       op,
-		}, update.MyWorkflow)
+		}, update.MyWorkflow))
 
 		Must1(Must(op.Get(ctx)).Get(ctx, nil))
 
