@@ -2,6 +2,8 @@ package updateandstart
 
 import (
 	"context"
+	"fmt"
+	"os"
 	"strconv"
 	"time"
 
@@ -25,6 +27,7 @@ func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
 	wfts := []int{}
 	for i := 0; i < iterations; i++ {
 		workflowID := "update-and-start-" + uuid.New()
+		fmt.Fprintf(os.Stderr, workflowID+"\n")
 
 		policy := enumspb.WORKFLOW_ID_CONFLICT_POLICY_FAIL
 		if i%2000 == 0 {
