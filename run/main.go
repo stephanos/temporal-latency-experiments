@@ -14,23 +14,29 @@ import (
 	"github.com/dandavison/tle/experiments/signal"
 	"github.com/dandavison/tle/experiments/signalquery"
 	"github.com/dandavison/tle/experiments/update"
+	"github.com/dandavison/tle/experiments/updateandstart"
+	"github.com/dandavison/tle/experiments/updatewithstart"
 	"go.temporal.io/sdk/client"
 	sdklog "go.temporal.io/sdk/log"
 	"go.temporal.io/sdk/worker"
 )
 
 var experiments = map[string]func(client.Client, sdklog.Logger, int) tle.Results{
-	"query":       query.Run,
-	"signal":      signal.Run,
-	"signalquery": signalquery.Run,
-	"update":      update.Run,
+	"query":           query.Run,
+	"signal":          signal.Run,
+	"signalquery":     signalquery.Run,
+	"update":          update.Run,
+	"updateandstart":  updateandstart.Run,
+	"updatewithstart": updatewithstart.Run,
 }
 
 var workflows = map[string]interface{}{
-	"query":       signalquery.MyWorkflow,
-	"signal":      signalquery.MyWorkflow,
-	"signalquery": signalquery.MyWorkflow,
-	"update":      update.MyWorkflow,
+	"query":           signalquery.MyWorkflow,
+	"signal":          signalquery.MyWorkflow,
+	"signalquery":     signalquery.MyWorkflow,
+	"update":          update.MyWorkflow,
+	"updateandstart":  updateandstart.MyWorkflow,
+	"updatewithstart": updateandstart.MyWorkflow,
 }
 
 func main() {

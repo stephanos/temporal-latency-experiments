@@ -1,5 +1,5 @@
-ITERATIONS=10000
-EXPERIMENTS=query signal signalquery update
+ITERATIONS=10
+EXPERIMENTS=updateandstart updatewithstart
 
 run:
 	cd run && \
@@ -20,8 +20,8 @@ run-cloud:
 			--experiment $$experiment \
 			--address sdk-ci.a2dd6.tmprl.cloud:7233 \
 			--namespace sdk-ci.a2dd6 \
-			--client-cert /tmp/client.crt \
-			--client-key /tmp/client.key \
+			--client-cert ~/client.crt \
+			--client-key ~/client.key \
 			> experiments/$$experiment/results-cloud.json; \
 	done
 
