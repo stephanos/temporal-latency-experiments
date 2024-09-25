@@ -65,7 +65,7 @@ func MyWorkflow(ctx workflow.Context) error {
 	err := workflow.SetUpdateHandler(
 		ctx,
 		UpdateName,
-		func(ctx workflow.Context, val int) error {
+		func(ctx workflow.Context) error {
 			done = true
 			return nil
 		})
