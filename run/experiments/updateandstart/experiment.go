@@ -25,7 +25,7 @@ func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
 	latencies := []int64{}
 	wfts := []int{}
 	for i := 0; i < iterations; i++ {
-		workflowID := "update-with-start-" + uuid.New()
+		workflowID := "update-and-start-" + uuid.New()
 
 		policy := enumspb.WORKFLOW_ID_CONFLICT_POLICY_FAIL
 		if i%2000 == 0 {
@@ -72,7 +72,7 @@ func MyWorkflow(ctx workflow.Context) error {
 	if err != nil {
 		return err
 	}
-	workflow.Await(ctx, func() bool {
+	workflow.AwaitWithTimeout(ctx, 60*time.Second, func() bool {
 		return done
 	})
 	return nil
