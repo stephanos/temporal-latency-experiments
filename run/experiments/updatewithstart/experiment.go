@@ -15,8 +15,7 @@ import (
 )
 
 const (
-	UpdateName     = "my-update"
-	DoneSignalName = "Done"
+	UpdateName = "my-update"
 )
 
 func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
