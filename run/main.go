@@ -60,7 +60,10 @@ func main() {
 
 func makeClient(cc *ClientConfig, l sdklog.Logger) client.Client {
 	if cc == nil {
-		return Must(client.Dial(client.Options{Logger: l}))
+		return Must(client.Dial(client.Options{
+			HostPort: "temporal-nginx:7233",
+			Logger:   l,
+		}))
 	}
 	cert := Must(tls.LoadX509KeyPair(cc.ClientCertPath, cc.ClientKeyPath))
 	return Must(client.Dial(client.Options{
