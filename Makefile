@@ -1,5 +1,5 @@
 ITERATIONS=10
-EXPERIMENTS=updateandstart updatewithstart
+EXPERIMENTS=update updateandstart updatewithstart
 
 run:
 	cd run && \

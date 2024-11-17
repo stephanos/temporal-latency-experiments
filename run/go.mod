@@ -1,6 +1,6 @@
 module github.com/dandavison/tle
 
-go 1.22.6
+go 1.23.2
 
 replace github.com/dandavison/temporal-latency-experiments => .
 

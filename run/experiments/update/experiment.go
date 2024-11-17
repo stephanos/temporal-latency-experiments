@@ -2,6 +2,7 @@ package update
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -27,6 +28,7 @@ func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
 	wfts := []int{}
 	for i := 0; i < iterations; i++ {
 		if i%2000 == 0 {
+			fmt.Println("Start Workflow", workflowID)
 			Must(c.ExecuteWorkflow(ctx, client.StartWorkflowOptions{
 				ID:                    workflowID,
 				TaskQueue:             tle.TaskQueue,

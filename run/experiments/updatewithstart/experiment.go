@@ -29,11 +29,6 @@ func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
 		workflowID := "update-with-start-" + uuid.New()
 		fmt.Fprintf(os.Stderr, workflowID+"\n")
 
-		policy := enumspb.WORKFLOW_ID_CONFLICT_POLICY_FAIL
-		if i%2000 == 0 {
-			policy = enumspb.WORKFLOW_ID_CONFLICT_POLICY_TERMINATE_EXISTING
-		}
-
 		start := time.Now()
 
 		op := client.NewUpdateWithStartWorkflowOperation(client.UpdateWorkflowOptions{
@@ -46,7 +41,7 @@ func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
 		Must(c.ExecuteWorkflow(ctx, client.StartWorkflowOptions{
 			ID:                       workflowID,
 			TaskQueue:                tle.TaskQueue,
-			WorkflowIDConflictPolicy: policy,
+			WorkflowIDConflictPolicy: enumspb.WORKFLOW_ID_CONFLICT_POLICY_FAIL,
 			WithStartOperation:       op,
 		}, update.MyWorkflow))
 
