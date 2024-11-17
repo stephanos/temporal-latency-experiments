@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"log/slog"
 	"os"
+	"time"
 
 	. "github.com/dandavison/temporal-latency-experiments/must"
 	"github.com/dandavison/temporal-latency-experiments/tle"
@@ -16,9 +18,13 @@ import (
 	"github.com/dandavison/tle/experiments/update"
 	"github.com/dandavison/tle/experiments/updateandstart"
 	"github.com/dandavison/tle/experiments/updatewithstart"
+	"github.com/dandavison/tle/must"
+	"go.temporal.io/api/serviceerror"
+	"go.temporal.io/api/workflowservice/v1"
 	"go.temporal.io/sdk/client"
 	sdklog "go.temporal.io/sdk/log"
 	"go.temporal.io/sdk/worker"
+	"google.golang.org/protobuf/types/known/durationpb"
 )
 
 var experiments = map[string]func(client.Client, sdklog.Logger, int) tle.Results{
@@ -60,10 +66,21 @@ func main() {
 
 func makeClient(cc *ClientConfig, l sdklog.Logger) client.Client {
 	if cc == nil {
-		return Must(client.Dial(client.Options{
+		options := client.Options{
 			HostPort: "temporal-nginx:7233",
 			Logger:   l,
-		}))
+		}
+		err := must.Must(client.NewNamespaceClient(options)).
+			Register(context.Background(), &workflowservice.RegisterNamespaceRequest{
+				Namespace:                        "default",
+				WorkflowExecutionRetentionPeriod: durationpb.New(1 * 24 * time.Hour),
+			})
+		if err != nil {
+			if _, ok := err.(*serviceerror.NamespaceAlreadyExists); !ok {
+				panic(err)
+			}
+		}
+		return Must(client.Dial(options))
 	}
 	cert := Must(tls.LoadX509KeyPair(cc.ClientCertPath, cc.ClientKeyPath))
 	return Must(client.Dial(client.Options{
