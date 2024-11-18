@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/antithesishq/antithesis-sdk-go/assert"
 	. "github.com/dandavison/temporal-latency-experiments/must"
 	"github.com/dandavison/temporal-latency-experiments/tle"
 	"github.com/dandavison/tle/experiments/query"
@@ -137,6 +138,7 @@ func parseArguments() (func(client.Client, sdklog.Logger, int) tle.Results, inte
 		panic("Workflow not found")
 	}
 	fmt.Fprintf(os.Stderr, "Running experiment %s\n", *experimentName)
+	assert.Sometimes(true, "[wkl] Update benchmark", map[string]any{"experiment": experimentName})
 	return run, workflow, *iterations, cc
 }
 
