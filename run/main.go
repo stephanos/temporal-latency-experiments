@@ -138,7 +138,7 @@ func parseArguments() (func(client.Client, sdklog.Logger, int) tle.Results, inte
 		panic("Workflow not found")
 	}
 	fmt.Fprintf(os.Stderr, "Running experiment %s\n", *experimentName)
-	assert.Sometimes(true, "[wkl] Update benchmark", map[string]any{"experiment": experimentName})
+	assert.Sometimes(true, "[WKL] Update benchmark", map[string]any{"experiment": experimentName})
 	return run, workflow, *iterations, cc
 }
 
