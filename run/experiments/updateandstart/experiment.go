@@ -24,7 +24,7 @@ const (
 func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
 	defer func() {
 		var err = recover()
-		assert.Always(err == nil, "[WKL] Update benchmark succeeded: update", map[string]any{"err": err})
+		assert.Always(err == nil, "[WKL] Update benchmark succeeded: update-and-start", map[string]any{"err": err})
 	}()
 	ctx := context.Background()
 
