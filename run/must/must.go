@@ -5,15 +5,16 @@ import (
 )
 
 func Must1(err error) {
+	assert.Always(err != nil, "[WKL] Update benchmark failed", map[string]any{"err": err})
 	if err != nil {
-		assert.Unreachable("[WKL] Update benchmark failed", map[string]any{"err": err.Error()})
 		panic(err)
 	}
 }
 
 func Must[T any](t T, err error) T {
+	assert.Always(err != nil, "[WKL] Update benchmark failed", map[string]any{"err": err})
 	if err != nil {
-		assert.Unreachable("[WKL] Update benchmark failed", map[string]any{"err": err.Error()})
+		panic(err)
 	}
 	return t
 }
