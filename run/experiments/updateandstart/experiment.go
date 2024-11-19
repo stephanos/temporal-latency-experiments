@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/antithesishq/antithesis-sdk-go/assert"
 	. "github.com/dandavison/temporal-latency-experiments/must"
 	"github.com/dandavison/temporal-latency-experiments/tle"
 	"github.com/pborman/uuid"
@@ -21,6 +22,10 @@ const (
 )
 
 func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
+	defer func() {
+		var err = recover()
+		assert.Always(err == nil, "[WKL] Update benchmark succeeded: update", map[string]any{"err": err})
+	}()
 	ctx := context.Background()
 
 	latencies := []int64{}

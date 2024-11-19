@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/antithesishq/antithesis-sdk-go/assert"
 	. "github.com/dandavison/temporal-latency-experiments/must"
 	"github.com/dandavison/temporal-latency-experiments/tle"
 	enumspb "go.temporal.io/api/enums/v1"
@@ -22,6 +23,10 @@ const (
 
 // Execute an update (i.e., send it and wait for the result).
 func Run(c client.Client, l sdklog.Logger, iterations int) tle.Results {
+	defer func() {
+		var err = recover()
+		assert.Always(err == nil, "[WKL] Update benchmark succeeded: update", map[string]any{"err": err})
+	}()
 	ctx := context.Background()
 
 	latencies := []int64{}
